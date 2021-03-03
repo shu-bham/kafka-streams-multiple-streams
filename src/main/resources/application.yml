@@ -1,0 +1,31 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8085
+
+spring:
+  application:
+    name: myApp
+
+  cloud:
+    stream:
+      function: process
+      bindings:
+        process-in-0:
+          destination: input-topic-1,input-topic-2
+          consumer:
+            max-attempts: 1
+        process-out-0:
+          destination: output-topic-1
+      kafka:
+        streams:
+          binder:
+            application-id: test-app
+            configuration:
+              commit.interval.ms: 1000
+              default:
+                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            auto-create-topics: false
+        binder:
+          brokers: localhost:9092
