@@ -1,12 +1,6 @@
-server:
-  servlet:
-    context-path: /api
-  port: 8085
-
 spring:
   application:
-    name: myApp
-
+    name: multiple-streams-processor
   cloud:
     stream:
       function: process
@@ -20,8 +14,9 @@ spring:
       kafka:
         streams:
           binder:
-            application-id: test-app
+            application-id: processor-app
             configuration:
+#              processing.guarantee: exactly_once
               commit.interval.ms: 1000
               default:
                 key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
