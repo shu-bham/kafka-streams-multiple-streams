@@ -6,11 +6,13 @@ spring:
       function: process
       bindings:
         process-in-0:
-          destination: input-topic-1,input-topic-2
-          consumer:
-            max-attempts: 1
+          destination: input-topic-1
+        process-in-1:
+          destination: input-topic-2
         process-out-0:
           destination: output-topic-1
+        process-out-1:
+          destination: output-topic-2
       kafka:
         streams:
           binder:
