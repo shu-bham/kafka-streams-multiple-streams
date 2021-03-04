@@ -3,29 +3,41 @@ package com.example.multiplestream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.Predicate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.config.StreamsBuilderFactoryBeanCustomizer;
 
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Slf4j
 @SpringBootApplication
 public class MultipleStreamApplication {
 
     @Bean
-    public BiFunction<KStream<String, String>, KStream<String, String>, KStream<String, String>[]> process() {
-        Predicate<String, String> toOutputTopic1 = (k, v) -> k.equalsIgnoreCase("app1");
-        Predicate<String, String> toOutputTopic2 = (k, v) -> k.equalsIgnoreCase("app2");
-        return (input1, input2) ->
-                input1.merge(input2)
-                        .peek((key, value) -> log.info("Received key:{}, value:{}", key, value))
-                        .map((key, value) -> new KeyValue<>(key.toUpperCase(), "processed value:" + value))
-                        .peek((key, value) -> log.info("Output key:{}, value:{}", key, value))
-                        .branch(toOutputTopic1, toOutputTopic2);
+    public Function<KStream<String, String>, KStream<String, String>> processXXX() {
+        return input ->
+                input.peek((key, value) -> log.info("Received-XXX: key:{}, value:{}", key, value))
+                        .map((key, value) -> new KeyValue<>(key.toUpperCase(), value.toUpperCase()))
+                        .peek((key, value) -> log.info("Output-XXX: key:{}, value:{}", key, value));
     }
+
+    @Bean
+    public Function<KStream<String, String>, KStream<String, String>> processYYY() {
+        return input ->
+                input.peek((key, value) -> log.info("Received-YYY key:{}, value:{}", key, value))
+                        .map((key, value) -> new KeyValue<>(key.toUpperCase(), value.toUpperCase()))
+                        .peek((key, value) -> log.info("Output-YYY key:{}, value:{}", key, value));
+    }
+
+    @Bean
+    public Function<KStream<String, String>, KStream<String, String>> processZZZ() {
+        return input ->
+                input.peek((key, value) -> log.info("Received-ZZZ key:{}, value:{}", key, value))
+                        .map((key, value) -> new KeyValue<>(key.toUpperCase(), value.toUpperCase()))
+                        .peek((key, value) -> log.info("Output-ZZZ key:{}, value:{}", key, value));
+    }
+
 
     @Bean
     public StreamsBuilderFactoryBeanCustomizer streamsBuilderFactoryBeanCustomizer() {

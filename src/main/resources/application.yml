@@ -1,22 +1,21 @@
 spring:
-  application:
-    name: multiple-streams-processor
   cloud:
     stream:
-      function: process
+      function:
+        definition: processXXX; processYYY; processZZZ
       bindings:
-        process-in-0:
-          destination: input-topic-1
-        process-in-1:
-          destination: input-topic-2
-        process-out-0:
-          destination: output-topic-1
-        process-out-1:
-          destination: output-topic-2
+        processXXX-in-0.destination: xxx-input-topic
+        processXXX-out-0.destination: xxx-output-topic
+        processYYY-in-0.destination: yyy-input-topic
+        processYYY-out-0.destination: yyy-output-topic
+        processZZZ-in-0.destination: zzz-input-topic
+        processZZZ-out-0.destination: zzz-output-topic
       kafka:
-        streams:
-          binder:
-            application-id: processor-app
+        streams.binder:
+            functions:
+              processXXX.application-id: xxx-processor
+              processYYY.application-id: yyy-processor
+              processZZZ.application-id: zzz-processor
             configuration:
 #              processing.guarantee: exactly_once
               commit.interval.ms: 1000
