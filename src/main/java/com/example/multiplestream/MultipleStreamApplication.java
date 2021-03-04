@@ -38,19 +38,6 @@ public class MultipleStreamApplication {
                                 }));
     }
 
-    @Bean
-    public StreamsBuilderFactoryBeanCustomizer streamsBuilderFactoryBeanCustomizer() {
-        return factoryBean ->
-                factoryBean.setKafkaStreamsCustomizer(
-                        kafkaStreams -> {
-                            kafkaStreams.setUncaughtExceptionHandler(
-                                    (t, e) -> {
-                                        log.error("Error occurred while Processing, shutting down: ", e);
-                                        System.exit(0);
-                                    });
-                        });
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(MultipleStreamApplication.class, args);
     }
