@@ -4,12 +4,12 @@ spring:
       function:
         definition: processXXX; processYYY; processZZZ
       bindings:
-        processXXX-in-0.destination: xxx-input-topic
-        processXXX-out-0.destination: xxx-output-topic
-        processYYY-in-0.destination: yyy-input-topic
-        processYYY-out-0.destination: yyy-output-topic
-        processZZZ-in-0.destination: zzz-input-topic
-        processZZZ-out-0.destination: zzz-output-topic
+        processXXX-in-0.destination: xxx-input
+        processXXX-out-0.destination: xxx-output
+        processYYY-in-0.destination: yyy-input
+        processYYY-out-0.destination: yyy-output
+        processZZZ-in-0.destination: zzz-input
+        processZZZ-out-0.destination: zzz-output
       kafka:
         streams.binder:
             functions:
